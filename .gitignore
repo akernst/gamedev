@@ -1,0 +1,8 @@
+.godot/
+.godot-bin/
+build/
+out/
+*.import.tmp
+__pycache__/
+*.keystore
+export_credentials.cfg

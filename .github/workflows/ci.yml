@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GODOT_HOME: ${{ github.workspace }}/.godot-bin
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Godot
+        uses: actions/cache@v4
+        with:
+          path: .godot-bin
+          key: godot-${{ hashFiles('GODOT_VERSION') }}
+
+      - name: Install Godot
+        run: tools/godot/install.sh
+
+      - name: Unit and acceptance tests
+        run: tools/godot/test.sh
+
+      - name: Smoke run
+        run: tools/godot/smoke.sh 600
+
+      - name: Licence audit
+        run: python3 tools/licence_audit.py
+
+      - name: Performance capture (headless)
+        run: tools/godot/perf.sh res://scenes/main.tscn 600 | tee perf.json
+
+      - name: Install virtual display
+        run: sudo apt-get update -q && sudo apt-get install -y -q xvfb libgl1-mesa-dri
+
+      - name: Capture main scene
+        run: tools/godot/capture.sh res://scenes/main.tscn out/capture/main 30
+
+      - name: Upload captures and perf
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: captures
+          path: |
+            out/capture
+            perf.json
+          if-no-files-found: ignore
