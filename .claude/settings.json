@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tools/godot/install.sh:*)",
+      "Bash(tools/godot/test.sh:*)",
+      "Bash(tools/godot/smoke.sh:*)",
+      "Bash(tools/godot/capture.sh:*)",
+      "Bash(tools/godot/perf.sh:*)",
+      "Bash(tools/godot/godot.sh:*)",
+      "Bash(python3 tools/licence_audit.py:*)",
+      "Bash(python3 tools/palette_check.py:*)",
+      "Bash(python3 tools/screenshot_compare.py:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/tools/hooks/check_gdscript.sh", "timeout": 60 }
+        ]
+      }
+    ]
+  }
+}
