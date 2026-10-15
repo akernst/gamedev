@@ -10,4 +10,6 @@ tools/godot/export.sh "Android" build/game.apk
 tools/godot/export.sh "Linux" build/game.x86_64
 ```
 
-Presets live in `game/export_presets.cfg`. Android debug builds need Java 17 and the Android SDK (`ANDROID_HOME`); CI provides both and generates a debug keystore. Release signing keys are never committed. iOS exports require macOS with Xcode.
+Presets live in `game/export_presets.cfg`. Android builds need Java 17+ and an Android SDK with `platform-tools` and `build-tools`. Godot looks for the SDK at `~/Android/Sdk` by default (CI symlinks `$ANDROID_HOME` there) and creates a debug keystore with `keytool` on first export. Release signing keys are never committed; they come from CI secrets. iOS exports require macOS with Xcode.
+
+In cloud sessions the Android SDK host may be blocked by the network policy, so Android APKs are built by CI and downloaded from the workflow run's artifacts.

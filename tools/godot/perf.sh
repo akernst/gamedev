@@ -10,9 +10,9 @@ G="$ROOT/tools/godot/godot.sh"
 ARGS=(--path "$ROOT/game" -s res://tests/support/perf_probe.gd -- --scene "$SCENE" --frames "$FRAMES")
 if [[ "${PERF_DISPLAY:-0}" == "1" ]]; then
   if [[ -z "${DISPLAY:-}" ]] && command -v xvfb-run >/dev/null; then
-    xvfb-run -a "$G" --rendering-driver opengl3 "${ARGS[@]}"
+    xvfb-run -a "$G" --rendering-driver opengl3 --audio-driver Dummy "${ARGS[@]}"
   else
-    "$G" --rendering-driver opengl3 "${ARGS[@]}"
+    "$G" --rendering-driver opengl3 --audio-driver Dummy "${ARGS[@]}"
   fi
 else
   "$G" --headless "${ARGS[@]}"

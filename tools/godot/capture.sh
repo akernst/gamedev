@@ -9,7 +9,7 @@ mkdir -p "$OUT"
 OUT_ABS="$(cd "$OUT" && pwd)"
 G="$ROOT/tools/godot/godot.sh"
 "$G" --headless --path "$ROOT/game" --import >/dev/null 2>&1 || true
-CMD=("$G" --path "$ROOT/game" --rendering-driver opengl3 --fixed-fps 60 --write-movie "$OUT_ABS/frame.png" --quit-after "$FRAMES" "$@" "$SCENE")
+CMD=("$G" --path "$ROOT/game" --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 60 --write-movie "$OUT_ABS/frame.png" --quit-after "$FRAMES" "$@" "$SCENE")
 if [[ -z "${DISPLAY:-}" ]] && command -v xvfb-run >/dev/null; then
   xvfb-run -a -s "-screen 0 1920x1080x24" "${CMD[@]}"
 else

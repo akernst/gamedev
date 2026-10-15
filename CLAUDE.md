@@ -32,6 +32,7 @@ All commands run from the repo root. Godot is pinned in `GODOT_VERSION`.
 | Run all tests headless | `tools/godot/test.sh` (filter: `tools/godot/test.sh test_economy`) |
 | Smoke run the main scene | `tools/godot/smoke.sh [frames]` |
 | Capture frames of a scene to PNG | `tools/godot/capture.sh <res://scene.tscn> <out_dir> [frames]` |
+| Capture a scene at phone sizes | `tools/godot/screens.sh <res://scene.tscn> <out_dir> [WxH,...]` |
 | Performance capture | `tools/godot/perf.sh <res://scene.tscn> [frames]` |
 | Export a build | `tools/godot/export.sh <preset> <out_file>` |
 | Licence audit | `python3 tools/licence_audit.py` |
